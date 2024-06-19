@@ -3,12 +3,9 @@ import requests
 import pytesseract
 from PIL import Image
 import io
-<<<<<<< HEAD
 from time import sleep
-=======
 import markdown2 as md
 
->>>>>>> refs/remotes/origin/main
 
 app = Flask(__name__)
 
