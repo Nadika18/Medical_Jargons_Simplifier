@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Jargon Simplifier</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(120deg, #007bff, #00d4ff);
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            background-color: #ffffff;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 5%;
+            overflow: hidden;
+        }
+        .header {
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            margin: 0;
+            color: #007bff;
+        }
+        .header p {
+            color: #6c757d;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 30px;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            text-align: left;
+            max-height: 250px; /* Limit the height */
+            overflow-y: auto; /* Make it scrollable */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Home</a>
+              </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Reports<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Jargon</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Text</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+<div class="container">
+    <div class="header">
+        <h1>Medical Report Simplifier</h1>
+        <p>Upload your medical report to get a simplified explanation</p>
+    </div>
+    <form id="upload-form" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="file" class="form-control-file" id="file-input" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Upload and Simplify</button>
+    </form>
+    <div id="result-container" class="result-container" style="display: none;">
+        <h4>Simplified Explanation</h4>
+        <div id="result"></div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById('upload-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const fileInput = document.getElementById('file-input');
+        if (fileInput.files.length === 0) {
+            alert("Please select a file.");
+        } else {
+            // We have to modify document upload code here and setup receiving the delayed simplified output
+            // Simulate file upload and processing
+            document.getElementById('result-container').style.display = 'block';
+            document.getElementById('result').innerText = 'The patient has a condition called a lower oesophageal hiatus hernia, which means that part of their stomach is pushing up into their chest through an opening in their diaphragm. They had symptoms for 3 months, including trouble swallowing food and vomiting undigested food particles. Doctors treated the patient with medications to help reduce symptoms, such as antibiotics, antacids, and acid reducers. This helped improve the patient\'s symptoms, allowing them to swallow solid foods again without vomiting. The next step is to do a procedure called an endoscopy (where a tube with a camera on the end is inserted into their mouth and down their throat) to see how bad the hernia is and take a biopsy (a sample of tissue) to learn more about what\'s going on. Overall, the patient\'s symptoms improved with treatment, but they may need further testing to learn more about their condition. The patient has a condition called a lower oesophageal hiatus hernia, which means that part of their stomach is pushing up into their chest through an opening in their diaphragm. They had symptoms for 3 months, including trouble swallowing food and vomiting undigested food particles. Doctors treated the patient with medications to help reduce symptoms, such as antibiotics, antacids, and acid reducers. This helped improve the patient\'s symptoms, allowing them to swallow solid foods again without vomiting. The next step is to do a procedure called an endoscopy (where a tube with a camera on the end is inserted into their mouth and down their throat) to see how bad the hernia is and take a biopsy (a sample of tissue) to learn more about what\'s going on. Overall, the patient\'s symptoms improved with treatment, but they may need further testing to learn more about their condition.';
+        }
+    });
+</script>
+</body>
+</html>
