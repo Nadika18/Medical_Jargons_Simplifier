@@ -148,7 +148,7 @@
         console.log('Simplified text:', simplifiedText);
 
         document.getElementById('result-container').style.display = 'block';
-        document.getElementById('result').innerText = simplifiedText;
+        document.getElementById('result').innerHTML = simplifiedText;
     } catch (error) {
         console.error('Error:', error);
         alert('Error: ' + error.message);
