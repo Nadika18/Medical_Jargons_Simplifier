@@ -3,6 +3,7 @@ import requests
 import pytesseract
 from PIL import Image
 import io
+from time import sleep
 
 app = Flask(__name__)
 
@@ -21,6 +22,27 @@ def reports():
 @app.route('/text', methods=['GET'])
 def text_simplifier():
     return render_template('text.html')
+
+# Serve the HTML template for chat
+@app.route('/chat', methods=['GET'])
+def chat():
+    return render_template('chat.html')
+
+# Endpoint to handle chat interaction
+@app.route('/chat-interaction/', methods=['POST'])
+def chat_interaction():
+    data = request.json
+    user_message = data.get('message')
+
+    if not user_message:
+        return jsonify({'error': 'No message provided'}), 400
+
+    # Simulate backend model response (replace with actual model integration)
+    # Here, just echoing back the user message as a dummy response
+    sleep(3)
+    model_response = f"Echo: {user_message}"
+
+    return jsonify({'response': model_response})
 
 # Handle file upload, extract text, and send to FastAPI
 @app.route('/upload-pdf/', methods=['POST'])
