@@ -50,8 +50,8 @@
             background-color: #f8f9fa;
             border-radius: 10px;
             text-align: left;
-            max-height: 250px; /* Limit the height */
-            overflow-y: auto; /* Make it scrollable */
+            max-height: 250px;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -103,7 +103,7 @@
     formData.append('file', fileInput.files[0]);
 
     try {
-        const response = await fetch('http://localhost:8000/upload-pdf/', {
+        const response = await fetch('/upload-pdf/', {
             method: 'POST',
             body: formData,
         });
@@ -112,15 +112,20 @@
             throw new Error('Network response was not ok');
         }
 
-        const textResponse = await response.text();
-        console.log('Text response:', textResponse);
+        const data = await response.json();
 
-        // Display the text response on your webpage or handle it as needed
+        if (data.error) {
+            throw new Error(data.error);
+        }
+
+        const simplifiedText = data.simplified_text;
+        console.log('Simplified text:', simplifiedText);
+
         document.getElementById('result-container').style.display = 'block';
-        document.getElementById('result').innerText = textResponse;
+        document.getElementById('result').innerText = simplifiedText;
     } catch (error) {
         console.error('Error:', error);
-        // Handle errors, e.g., display an error message on your webpage
+        alert('Error: ' + error.message);
     }
 };
 
@@ -134,7 +139,6 @@ document.getElementById('upload-form').addEventListener('submit', function(event
         uploadFile(fileInput);
     }
 });
-
 </script>
 </body>
 </html>

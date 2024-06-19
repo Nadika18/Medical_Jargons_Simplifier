@@ -68,7 +68,7 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Reports</a>
-                </li>
+              </li>
             <li class="nav-item active">
                 <a class="nav-link" href="#">Text<span class="sr-only">(current)</span></a>
             </li>
@@ -81,7 +81,7 @@
 <div class="container">
     <div class="header">
         <h1>Medical Text Simplifier</h1>
-        <p>Upload medical text to get a simplified explanation</p>
+        <p>Enter medical text to get a simplified explanation</p>
     </div>
     <form id="upload-form">
         <div class="form-group">
@@ -100,37 +100,38 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     document.getElementById('upload-form').addEventListener('submit', async function(event) {
-        event.preventDefault();
-        const medicalText = document.getElementById('medical-text').value.trim();
-        if (medicalText === '') {
-            alert("Please enter some medical text.");
-        } else {
-            try {
-                // Send the medical text to the backend
-                const response = await fetch('http://localhost:8000/upload-text/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ medical_text: medicalText }),
-                });
+    event.preventDefault();
+    const medicalText = document.getElementById('medical-text').value.trim();
+    if (medicalText === '') {
+        alert("Please enter some medical text.");
+    } else {
+        try {
+            // Send the medical text to the backend
+            const response = await fetch('/upload-text/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ medical_text: medicalText }),
+            });
 
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
-                const responseData = await response.json();
-                const simplifiedText = responseData.simplified_text;
-
-                // Display the simplified text in the result container
-                document.getElementById('result-container').style.display = 'block';
-                document.getElementById('result').innerText = simplifiedText;
-            } catch (error) {
-                console.error('Error:', error);
-                // Handle errors, e.g., display an error message on your webpage
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+
+            const responseData = await response.json();
+            const simplifiedText = responseData.simplified_text;
+
+            // Display the simplified text in the result container
+            document.getElementById('result-container').style.display = 'block';
+            document.getElementById('result').innerText = simplifiedText;
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle errors, e.g., display an error message on your webpage
+            alert('Error: ' + error.message);
         }
-    });
+    }
+});
 </script>
 </body>
 </html>
