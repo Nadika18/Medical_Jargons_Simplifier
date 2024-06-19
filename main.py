@@ -3,6 +3,8 @@ import requests
 import pytesseract
 from PIL import Image
 import io
+import markdown2 as md
+
 
 app = Flask(__name__)
 
@@ -38,11 +40,11 @@ def upload_pdf():
         extracted_text = extract_text_from_image(file)
         
         # Send extracted text to FastAPI for simplification
-        rest_api_url = 'http://localhost:8000/upload-text/'
-        response = requests.post(rest_api_url, json={'medical_text': extracted_text})
+        rest_api_url = 'http://127.0.0.1:8000/simplify_text_llm/'
+        response = requests.get(rest_api_url, json={'input': extracted_text})
 
         if response.status_code == 200:
-            return jsonify({'simplified_text': response.json().get('simplified_text')})
+            return jsonify({'simplified_text': md.markdown(response.content.decode())})
         else:
             return jsonify({'error': 'Failed to get simplified text'}), response.status_code
     except Exception as e:
@@ -59,11 +61,11 @@ def upload_text():
 
     try:
         # Replace with the actual URL of your REST API
-        rest_api_url = 'http://localhost:8000/upload-text/'
-        response = requests.post(rest_api_url, json={'medical_text': medical_text})
+        rest_api_url = 'http://127.0.0.1:8000/simplify_text_llm/'
+        response = requests.get(rest_api_url, json={'input': medical_text})
 
         if response.status_code == 200:
-            return jsonify({'simplified_text': response.json().get('simplified_text')})
+            return jsonify({'simplified_text': md.markdown(response.content.decode())})
         else:
             return jsonify({'error': 'Failed to get simplified text'}), response.status_code
     except Exception as e:
