@@ -20,7 +20,7 @@
             background-color: #ffffff;
             border-radius: 10px;
             text-align: center;
-            margin-top: 5%;
+            margin-top: 2%;
             overflow: hidden;
         }
         .header {
@@ -98,18 +98,43 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    document.getElementById('upload-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const fileInput = document.getElementById('file-input');
-        if (fileInput.files.length === 0) {
-            alert("Please select a file.");
-        } else {
-            // We have to modify document upload code here and setup receiving the delayed simplified output
-            // Simulate file upload and processing
-            document.getElementById('result-container').style.display = 'block';
-            document.getElementById('result').innerText = 'The patient has a condition called a lower oesophageal hiatus hernia, which means that part of their stomach is pushing up into their chest through an opening in their diaphragm. They had symptoms for 3 months, including trouble swallowing food and vomiting undigested food particles. Doctors treated the patient with medications to help reduce symptoms, such as antibiotics, antacids, and acid reducers. This helped improve the patient\'s symptoms, allowing them to swallow solid foods again without vomiting. The next step is to do a procedure called an endoscopy (where a tube with a camera on the end is inserted into their mouth and down their throat) to see how bad the hernia is and take a biopsy (a sample of tissue) to learn more about what\'s going on. Overall, the patient\'s symptoms improved with treatment, but they may need further testing to learn more about their condition. The patient has a condition called a lower oesophageal hiatus hernia, which means that part of their stomach is pushing up into their chest through an opening in their diaphragm. They had symptoms for 3 months, including trouble swallowing food and vomiting undigested food particles. Doctors treated the patient with medications to help reduce symptoms, such as antibiotics, antacids, and acid reducers. This helped improve the patient\'s symptoms, allowing them to swallow solid foods again without vomiting. The next step is to do a procedure called an endoscopy (where a tube with a camera on the end is inserted into their mouth and down their throat) to see how bad the hernia is and take a biopsy (a sample of tissue) to learn more about what\'s going on. Overall, the patient\'s symptoms improved with treatment, but they may need further testing to learn more about their condition.';
+    const uploadFile = async (fileInput) => {
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+
+    try {
+        const response = await fetch('http://localhost:8000/upload-pdf/', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
-    });
+
+        const textResponse = await response.text();
+        console.log('Text response:', textResponse);
+
+        // Display the text response on your webpage or handle it as needed
+        document.getElementById('result-container').style.display = 'block';
+        document.getElementById('result').innerText = textResponse;
+    } catch (error) {
+        console.error('Error:', error);
+        // Handle errors, e.g., display an error message on your webpage
+    }
+};
+
+// Example usage when submitting a form with file input
+document.getElementById('upload-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const fileInput = document.getElementById('file-input');
+    if (fileInput.files.length === 0) {
+        alert("Please select a file.");
+    } else {
+        uploadFile(fileInput);
+    }
+});
+
 </script>
 </body>
 </html>
