@@ -28,6 +28,8 @@ def text_simplifier():
 # Serve the HTML template for chat
 @app.route('/chat', methods=['GET'])
 def chat():
+    rest_api_url = 'http://127.0.0.1:8000/simplify_reset_context/'
+    response = requests.get(rest_api_url)
     return render_template('chat.html')
 
 # Endpoint to handle chat interaction
@@ -41,10 +43,19 @@ def chat_interaction():
 
     # Simulate backend model response (replace with actual model integration)
     # Here, just echoing back the user message as a dummy response
-    sleep(3)
-    model_response = f"Echo: {user_message}"
+    try:
+        # Extract text from image
+        # Send extracted text to FastAPI for simplification
+        rest_api_url = 'http://127.0.0.1:8000/simplify_text_llm_context/'
+        response = requests.get(rest_api_url, json={'input': user_message})
 
-    return jsonify({'response': model_response})
+        if response.status_code == 200:
+            return jsonify({'response': md.markdown(response.content.decode())})
+        else:
+            return jsonify({'error': 'Failed to get simplified text'}), response.status_code
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 # Handle file upload, extract text, and send to FastAPI
 @app.route('/upload-pdf/', methods=['POST'])

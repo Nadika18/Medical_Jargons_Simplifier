@@ -103,7 +103,7 @@
             const chatContainer = document.getElementById('chat-container');
             const messageDiv = document.createElement('div');
             messageDiv.className = 'message ' + type;
-            messageDiv.innerText = message;
+            messageDiv.innerHTML = message;
             chatContainer.appendChild(messageDiv);
             chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to bottom
         }
