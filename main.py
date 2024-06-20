@@ -1,13 +1,15 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 import requests
 import pytesseract
 from PIL import Image
 import io
 from time import sleep
 import markdown2 as md
+import csv
 
 
 app = Flask(__name__)
+CSV_FILE_PATH = 'queries_outputs.csv'
 
 def extract_text_from_image(image_file):
     img = Image.open(image_file)
@@ -104,5 +106,30 @@ def upload_text():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
+# Utility function to read CSV file and return list of dicts
+def read_csv(file_path):
+    with open(file_path, mode='r', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        return list(reader)
+
+# Utility function to write list of dicts to CSV file
+def write_csv(file_path, data):
+    with open(file_path, mode='w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=['query', 'output', 'approved'])
+        writer.writeheader()
+        writer.writerows(data)
+
+# Load queries and outputs from CSV
+queries_outputs = read_csv(CSV_FILE_PATH)
+
+# Index to keep track of current query-output pair
+current_index = 0
+
+# Route to display current query-output pair
+@app.route('/jargon', methods=['GET'])
+def jargon():
+    return render_template('jargon.html')
+    
 if __name__ == '__main__':
     app.run(debug=True,host="0.0.0.0")
