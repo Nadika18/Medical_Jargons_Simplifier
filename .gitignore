@@ -1,3 +1,5 @@
 vivekaenv/
 __pycache__
 .venv
+.vscode
+venv/
